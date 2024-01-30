@@ -2,11 +2,11 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Spring Boot-DevlogApplication<devlog>",
+            "name": "Spring Boot-DevlogApplication<api>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "mainClass": "com.hiagorios.devlog.DevlogApplication",
-            "projectName": "devlog",
+            "projectName": "api",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
