@@ -55,8 +55,7 @@ export class AppComponent implements OnDestroy {
   start?: Date;
   secondsSpent = signal(0);
 
-  interval$ = interval(1000);
-  onDestroy = new Subject();
+  stopTimer$ = new Subject();
 
   constructor(private formBuilder: FormBuilder) {
     this.activityForm = this.formBuilder.group({
@@ -64,22 +63,16 @@ export class AppComponent implements OnDestroy {
       description: ['', [Validators.required]],
       minutesSpent: [0]
     })
-    this.interval$
-      .pipe(takeUntil(this.onDestroy))
-      .subscribe(() => {
-        if (this.isCounting()) {
-          const seconds = this.getTimeSpentInSeconds();
-          this.secondsSpent.set(seconds);
-        }
-      })
   }
 
   onToggle() {
     this.isCounting.update(prev => !prev);
     if (this.isCounting()) {
       this.start = new Date();
+      this.startTimer();
     } else {
-      const seconds = this.getTimeSpentInSeconds();
+      this.stopTimer$.next(true);
+      const seconds = this.secondsSpent();
       this.start = undefined;
       this.secondsSpent.set(0);
 
@@ -92,7 +85,17 @@ export class AppComponent implements OnDestroy {
     }
   }
 
-  getTimeSpentInSeconds(): number {
+  startTimer() {
+    interval(1000)
+      .pipe(takeUntil(this.stopTimer$))
+      .subscribe(() => {
+        if (this.isCounting()) {
+          this.secondsSpent.set(this.calculateSecondsSpent());
+        }
+      })
+  }
+
+  calculateSecondsSpent(): number {
     if (!this.start) {
       return 0;
     }
@@ -102,7 +105,7 @@ export class AppComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.onDestroy.next(true);
-    this.onDestroy.complete();
+    this.stopTimer$.next(true);
+    this.stopTimer$.complete();
   }
 }
