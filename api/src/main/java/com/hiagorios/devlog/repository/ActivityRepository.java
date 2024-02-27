@@ -10,7 +10,7 @@ import com.hiagorios.devlog.model.Activity;
 
 public interface ActivityRepository extends CrudRepository<Activity, Long> {
 
-    List<Activity> findDistinctByDescriptionContainingIgnoreCase(String description);
+    List<Activity> findDistinctByDescriptionContainingIgnoreCaseOrderByDateCreatedDesc(String description);
 
     Optional<Activity> findByDescriptionAndDateCreatedBetween(String description, LocalDateTime start,
             LocalDateTime end);

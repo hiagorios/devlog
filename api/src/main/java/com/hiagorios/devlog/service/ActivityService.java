@@ -24,7 +24,7 @@ public class ActivityService {
     }
 
     public List<Activity> list(String description) {
-        return repository.findDistinctByDescriptionContainingIgnoreCase(description);
+        return repository.findDistinctByDescriptionContainingIgnoreCaseOrderByDateCreatedDesc(description);
     }
 
     public Activity save(@Valid SaveActivityDTO dto) {

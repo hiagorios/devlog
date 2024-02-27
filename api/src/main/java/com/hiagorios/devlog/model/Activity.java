@@ -2,6 +2,9 @@ package com.hiagorios.devlog.model;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,6 +26,7 @@ public class Activity {
     private Integer minutesSpent = 0;
 
     @NotNull
+    @JsonFormat(shape = Shape.STRING)
     private LocalDateTime dateCreated;
 
     public Activity() {
