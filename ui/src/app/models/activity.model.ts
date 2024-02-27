@@ -2,4 +2,5 @@ export interface Activity {
     id: number;
     description: string;
     minutesSpent: number;
+    dateCreated: Date;
 }
